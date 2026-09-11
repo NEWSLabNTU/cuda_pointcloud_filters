@@ -7,15 +7,15 @@
 > (branch `jerry73204/autoware_universe:feat/cuda-standalone-filters`), where
 > they live inside `autoware_cuda_pointcloud_preprocessor` under the
 > `autoware::cuda_pointcloud_preprocessor::` namespace. That branch is the
-> source of truth; the same commits are cherry-picked onto
-> `NEWSLabNTU/autoware_universe:1.5.0-patches`, which our Autoware Debians are
-> built from.
+> source of truth: fix a filter there, then mirror it here.
 >
-> This repository stays alive only until a Debian carrying those filters is
-> installed on the vehicles — the currently installed `/opt/autoware/1.5.0`
-> ships neither, so it is still the only provider. Once it does, the launch
-> files in AutoSDV and 2026-golf-cart move to the upstream package and this
-> repository is archived.
+> This repository stays alive until the PR merges and the vehicles move to an
+> Autoware release carrying it. It is not short-circuited by patching the
+> Autoware build: `NEWSLabNTU/autoware-localrepo` builds official Autoware
+> source so that `/opt/autoware/<version>` stays a clean baseline, and
+> vehicle-side patches live in AutoSDV and 2026-golf-cart instead — which is
+> what this submodule is. The installed `/opt/autoware/1.5.0` ships neither
+> filter, so it is still the only provider.
 
 ## Purpose
 

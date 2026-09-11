@@ -1,5 +1,22 @@
 # cuda_pointcloud_filters
 
+> **Superseded — do not fix bugs here.**
+>
+> These two filters were submitted to Autoware as
+> [autowarefoundation/autoware_universe#13301](https://github.com/autowarefoundation/autoware_universe/pull/13301)
+> (branch `jerry73204/autoware_universe:feat/cuda-standalone-filters`), where
+> they live inside `autoware_cuda_pointcloud_preprocessor` under the
+> `autoware::cuda_pointcloud_preprocessor::` namespace. That branch is the
+> source of truth; the same commits are cherry-picked onto
+> `NEWSLabNTU/autoware_universe:1.5.0-patches`, which our Autoware Debians are
+> built from.
+>
+> This repository stays alive only until a Debian carrying those filters is
+> installed on the vehicles — the currently installed `/opt/autoware/1.5.0`
+> ships neither, so it is still the only provider. Once it does, the launch
+> files in AutoSDV and 2026-golf-cart move to the upstream package and this
+> repository is archived.
+
 ## Purpose
 
 Autoware's `autoware_cuda_pointcloud_preprocessor` accelerates most of the CPU

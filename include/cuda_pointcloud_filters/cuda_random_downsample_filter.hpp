@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GOLFCART_CUDA_PREPROCESSOR__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_
-#define GOLFCART_CUDA_PREPROCESSOR__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_
+#ifndef CUDA_POINTCLOUD_FILTERS__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_
+#define CUDA_POINTCLOUD_FILTERS__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_
 
 #include <cuda_blackboard/cuda_pointcloud2.hpp>
 #include <cuda_runtime.h>
@@ -82,4 +82,4 @@ private:
 
 }  // namespace cuda_pointcloud_filters
 
-#endif  // GOLFCART_CUDA_PREPROCESSOR__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_
+#endif  // CUDA_POINTCLOUD_FILTERS__CUDA_RANDOM_DOWNSAMPLE_FILTER_HPP_

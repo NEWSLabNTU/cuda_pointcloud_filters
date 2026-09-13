@@ -97,9 +97,12 @@ void CudaCropBoxFilterNode::pointcloudCallback(
   auto output = filter_->filter(*msg);
   if (!output) {
     if (!warned_about_layout_) {
+      // Name the requirement that failed rather than the layout that did not
+      // match: this filter has no layout, only requirements, and "x is FLOAT64"
+      // and "there is no x" need different fixes upstream.
       RCLCPP_ERROR(
-        get_logger(),
-        "Cloud has no float32 x/y/z fields; this filter cannot read it. Dropping.");
+        get_logger(), "Cannot read this cloud: %s. Dropping.",
+        filter_->lastLayoutError().c_str());
       warned_about_layout_ = true;
     }
     return;

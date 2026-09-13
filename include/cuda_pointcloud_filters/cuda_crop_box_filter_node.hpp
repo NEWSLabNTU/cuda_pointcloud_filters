@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GOLFCART_CUDA_PREPROCESSOR__CUDA_CROP_BOX_FILTER_NODE_HPP_
-#define GOLFCART_CUDA_PREPROCESSOR__CUDA_CROP_BOX_FILTER_NODE_HPP_
+#ifndef CUDA_POINTCLOUD_FILTERS__CUDA_CROP_BOX_FILTER_NODE_HPP_
+#define CUDA_POINTCLOUD_FILTERS__CUDA_CROP_BOX_FILTER_NODE_HPP_
 
 #include "cuda_pointcloud_filters/cuda_crop_box_filter.hpp"
 
@@ -56,4 +56,4 @@ private:
 
 }  // namespace cuda_pointcloud_filters
 
-#endif  // GOLFCART_CUDA_PREPROCESSOR__CUDA_CROP_BOX_FILTER_NODE_HPP_
+#endif  // CUDA_POINTCLOUD_FILTERS__CUDA_CROP_BOX_FILTER_NODE_HPP_

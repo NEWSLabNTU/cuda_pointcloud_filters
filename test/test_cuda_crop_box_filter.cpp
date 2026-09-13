@@ -26,6 +26,7 @@
 #include <cstring>
 #include <limits>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace
@@ -350,11 +351,36 @@ TEST_F(CudaCropBoxFilterTest, RejectsALayoutWithoutFloat32Xyz)
   // rather than crop on it.
   const auto cloud = makeCloud({point(0.0f, 0.0f, 0.0f)}, sensor_msgs::msg::PointField::FLOAT64);
   EXPECT_EQ(filter.filter(cloud), nullptr);
+  // The report must name the field and its type. A generic "unusable layout"
+  // sends the reader looking for a missing field that is in fact present.
+  EXPECT_NE(filter.lastLayoutError().find("'x'"), std::string::npos)
+    << filter.lastLayoutError();
+  EXPECT_NE(filter.lastLayoutError().find("FLOAT64"), std::string::npos)
+    << filter.lastLayoutError();
 
-  // A cloud missing z entirely is refused for the same reason.
+  // A cloud missing z entirely is refused too, and says so differently.
   auto missing_z = makeCloud({point(0.0f, 0.0f, 0.0f)});
   missing_z.fields.erase(missing_z.fields.begin() + 2);
   EXPECT_EQ(filter.filter(missing_z), nullptr);
+  EXPECT_NE(filter.lastLayoutError().find("no field named 'z'"), std::string::npos)
+    << filter.lastLayoutError();
+
+  // A field declared past the end of the point is refused before any kernel
+  // reads out of bounds.
+  auto overrun = makeCloud({point(0.0f, 0.0f, 0.0f)});
+  overrun.fields[0].offset = overrun.point_step;
+  EXPECT_EQ(filter.filter(overrun), nullptr);
+  EXPECT_NE(filter.lastLayoutError().find("point_step"), std::string::npos)
+    << filter.lastLayoutError();
+
+  // An unusual offset and field order is NOT a reason to refuse: the kernel
+  // addresses every coordinate as offset + index * point_step, so only the
+  // datatype, the count and staying inside the point matter.
+  auto reordered = makeCloud({point(1.0f, 2.0f, 3.0f)});
+  std::swap(reordered.fields[0], reordered.fields[2]);
+  const auto reordered_output = filter.filter(reordered);
+  ASSERT_NE(reordered_output, nullptr);
+  EXPECT_EQ(reordered_output->width, 1u);
 }
 
 }  // namespace

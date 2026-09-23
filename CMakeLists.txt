@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(cuda_pointcloud_filters LANGUAGES CXX)
+project(cuda_pointcloud_filters LANGUAGES C CXX)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)

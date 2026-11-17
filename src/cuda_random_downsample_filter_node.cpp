@@ -48,7 +48,11 @@ CudaRandomDownsampleFilterNode::CudaRandomDownsampleFilterNode(
   sub_ =
     std::make_shared<cuda_blackboard::CudaBlackboardSubscriber<cuda_blackboard::CudaPointCloud2>>(
     *this, "~/input/pointcloud",
-    std::bind(&CudaRandomDownsampleFilterNode::pointcloudCallback, this, std::placeholders::_1));
+    std::bind(&CudaRandomDownsampleFilterNode::pointcloudCallback, this, std::placeholders::_1)
+#if CUDA_POINTCLOUD_FILTERS_SUBSCRIBER_TAKES_STREAM
+    , filter_->stream()
+#endif
+    );
 }
 
 void CudaRandomDownsampleFilterNode::pointcloudCallback(

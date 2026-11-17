@@ -45,6 +45,16 @@ ament_auto_add_library(${PROJECT_NAME} SHARED
 target_link_libraries(${PROJECT_NAME} CUDA::cudart)
 set_target_properties(${PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
+# cuda_blackboard 0.5 (Autoware 2.1.0) wants the stream the callback consumes
+# the cloud on: it makes that stream wait on the producer, and the memory pool's
+# free stream wait on us. Without it the subscriber falls back to the legacy
+# default stream, which synchronises the whole process after every callback,
+# and the stream-less constructor is deprecated. 0.1 (Autoware 1.5.0) has no
+# such constructor. Both filters already run every kernel on their own stream.
+if(cuda_blackboard_VERSION VERSION_GREATER_EQUAL 0.5)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE CUDA_POINTCLOUD_FILTERS_SUBSCRIBER_TAKES_STREAM=1)
+endif()
+
 rclcpp_components_register_node(${PROJECT_NAME}
   PLUGIN "cuda_pointcloud_filters::CudaCropBoxFilterNode"
   EXECUTABLE cuda_crop_box_filter_node

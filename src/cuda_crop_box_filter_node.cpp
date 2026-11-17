@@ -76,7 +76,11 @@ CudaCropBoxFilterNode::CudaCropBoxFilterNode(const rclcpp::NodeOptions & node_op
   sub_ =
     std::make_shared<cuda_blackboard::CudaBlackboardSubscriber<cuda_blackboard::CudaPointCloud2>>(
       *this, "~/input/pointcloud",
-      std::bind(&CudaCropBoxFilterNode::pointcloudCallback, this, std::placeholders::_1));
+      std::bind(&CudaCropBoxFilterNode::pointcloudCallback, this, std::placeholders::_1)
+#if CUDA_POINTCLOUD_FILTERS_SUBSCRIBER_TAKES_STREAM
+      , filter_->stream()
+#endif
+      );
 }
 
 void CudaCropBoxFilterNode::pointcloudCallback(
